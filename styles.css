@@ -28,6 +28,12 @@ header nav ul li {
   clear: both;
 }
 
+#projects {
+  margin: 0 auto;
+  width: 90%;
+  max-width: 600px;
+}
+
 .project {
   margin-bottom: 20px;
   border-bottom: 1px solid #00AEFF;
