@@ -3,17 +3,17 @@ body {
 }
 
 a {
-  color: rgb(255, 81, 0);
+  color: rgb(255, 71, 98);
 }
 
 a:hover {
-  color: #00AEFF;
+  color: rgb(255, 228, 71);
 }
 
 header {
   margin-bottom: 20px;
   padding: 20px;
-  border-bottom: 1px solid #00AEFF;
+  border-bottom: 1px solid rgb(71, 190, 255);
 }
 
 header h1 {
@@ -36,7 +36,7 @@ header nav ul li {
 
 .project {
   margin-bottom: 20px;
-  border-bottom: 1px solid #00AEFF;
+  border-bottom: 1px solid rgb(71, 190, 255);
 }
 
 .project img {
