@@ -3,11 +3,11 @@ body {
 }
 
 a {
-  color: rgb(255, 68, 90);
+  color: #FF0202;
 }
 
 a:hover {
-  color: rgb(255, 171, 16);
+  color: #FAC305;
 }
 
 header {
