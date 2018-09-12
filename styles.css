@@ -46,6 +46,10 @@ header nav ul li {
   margin-bottom: 10px;
 }
 
+.project iframe {
+  width 300px;
+}
+
 .project h2 {
   font-size: 1.5em;
   margin-bottom: 10px;
