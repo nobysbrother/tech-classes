@@ -29,12 +29,13 @@ header nav ul li {
 }
 
 #description {
-  color: #9C9C9C;
-  fonts-style: italic;
+  color: #9c9c9c;
+  font-style: italic;
   font-size: 1.55em;
   margin: 0 auto;
   width: 90%;
-  max-width: 700;
+  max-width: 700px;
+  margin-bottom: 20px;
 }
   
 
