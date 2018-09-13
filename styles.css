@@ -28,6 +28,13 @@ header nav ul li {
   clear: both;
 }
 
+#description {
+  margin: 0 auto;
+  width: 90%;
+  max-width: 700;
+}
+  
+
 #projects {
   margin: 0 auto;
   width: 90%;
