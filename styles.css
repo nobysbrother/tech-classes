@@ -10,10 +10,21 @@ a:hover {
   color: #FFAB10;
 }
 
+.clear {
+  clear: both;
+}
+
+/* HEADER */
 header {
-  margin-bottom: 20px;
-  padding: 20px;
+  padding: 20px 0;
   border-bottom: 1px solid rgb(71, 190, 255);
+  margin-bottom: 20px;
+}
+
+#title {
+  margin: 0 auto;
+  width: 90%;
+  max-width: 650px;
 }
 
 header h1 {
@@ -23,11 +34,22 @@ header h1 {
 header nav ul li {
   display: inline;
 } 
+/* END HEADER */
 
-.clear {
-  clear: both;
+/* INDEX PAGE  */
+h2 {
+  text-align: center;
+  font-size: 3em;
+  font-style: bold;
 }
 
+img {
+  display: block;
+  margin: 20px auto;
+}
+/* END INDEX PAGE */
+
+/* PROJECTS PAGE */
 #description {
   color: #9c9c9c;
   font-style: italic;
@@ -66,3 +88,4 @@ header nav ul li {
   font-size: 1.5em;
   margin-bottom: 10px;
 }
+/* END PROJECTS PAGE */
