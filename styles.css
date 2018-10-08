@@ -2,6 +2,18 @@ body {
   font-family: sans-serif;
 }
 
+#content {
+  margin: 0 auto;
+  width: 90%;
+  max-width: 650px;
+}
+
+#content h2 {
+  font-size: 1.7em;
+  color: rgb(54, 158, 243);
+  margin-bottom: 20px;
+}
+
 a {
   color: #FF0202;
 }
@@ -28,7 +40,7 @@ header {
 }
 
 header h1 {
-  font-size: 2em;
+  font-size: 2.5em;
 }
 
 header nav ul li {
@@ -37,30 +49,19 @@ header nav ul li {
 /* END HEADER */
 
 /* INDEX PAGE  */
-h2 {
+.under-con h2 {
   text-align: center;
   font-size: 3em;
   font-style: bold;
 }
 
-img {
+.under-con img {
   display: block;
   margin: 20px auto;
 }
 /* END INDEX PAGE */
 
 /* PROJECTS PAGE */
-#description {
-  color: #9c9c9c;
-  font-style: italic;
-  font-size: 1.55em;
-  margin: 0 auto;
-  width: 90%;
-  max-width: 700px;
-  margin-bottom: 20px;
-}
-  
-
 #projects {
   margin: 0 auto;
   width: 90%;
@@ -72,6 +73,10 @@ img {
   border-bottom: 1px solid rgb(71, 190, 255);
 }
 
+#content .project h2 {
+  color: black;
+}
+
 .project img {
   width: 250px;
   float: left;
@@ -80,7 +85,7 @@ img {
 }
 
 .project iframe {
-  width: 100%;
+  width: 90%;
   margin: 1 auto;
 }
 
@@ -89,3 +94,23 @@ img {
   margin-bottom: 10px;
 }
 /* END PROJECTS PAGE */
+
+/* BADGE PAGE */
+.badge {
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgb(71, 190, 255);
+}
+
+.badge iframe {
+  float: left;
+  margin: 0 5px 5px 0;
+}
+
+.badge ul {
+  margin-top: 12px;
+}
+
+.badge ul li {
+  margin-bottom: 12px;
+}
+/* END BADGE PAGE */
