@@ -86,7 +86,7 @@ header nav ul li {
 
 .project iframe {
   width: 90%;
-  margin: 1 auto;
+  margin: 1px auto 10px auto;
 }
 
 .project h2 {
