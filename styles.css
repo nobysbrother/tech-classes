@@ -22,6 +22,10 @@ a:hover {
   color: #FFAB10;
 }
 
+a.active {
+  color: rgb(54, 158, 243);
+}
+
 .clear {
   clear: both;
 }
@@ -48,19 +52,6 @@ header nav ul li {
 } 
 /* END HEADER */
 
-/* INDEX PAGE  */
-.under-con h2 {
-  text-align: center;
-  font-size: 3em;
-  font-style: bold;
-}
-
-.under-con img {
-  display: block;
-  margin: 20px auto;
-}
-/* END INDEX PAGE */
-
 /* PROJECTS PAGE */
 #projects {
   margin: 0 auto;
@@ -70,6 +61,7 @@ header nav ul li {
 
 .project {
   margin-bottom: 20px;
+  padding-bottom: 4px;
   border-bottom: 1px solid rgb(71, 190, 255);
 }
 

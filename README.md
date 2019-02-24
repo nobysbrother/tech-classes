@@ -6,7 +6,9 @@ live site: https://nobysbrother.github.io/Prog-Rob/.
 * ~~Update navigation to Home/Intro proj/Intro badges~~
 * ~~Move projects to Intro to Prog projects page~~
 * ~~In progress sign on index~~
-* ~~Add badges to badges page~~
 * ~~Update projects page description~~
-* Change nav to drop down
-* Add content to home page
+* ~~Remove Home page~~
+* ~~Add images from image folder to their projects~~
+* ~~Make active pages have special link color~~
+* Add content to extracurricular page
+* Add badges to badges page
