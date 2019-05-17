@@ -1,0 +1,24 @@
+int light = 0;
+
+void setup()
+{
+pinMode(7, INPUT);
+pinMode(13, OUTPUT);
+
+}
+
+void loop() 
+{
+if (digitalRead(7) == LOW) {
+  if (light == LOW) {
+    digitalWrite(13, HIGH);
+    light = HIGH;
+  } else {
+    digitalWrite(13, LOW);
+    light = LOW;
+  }
+  while (digitalRead(7) == LOW) {
+  }
+}
+ delay(10);
+}

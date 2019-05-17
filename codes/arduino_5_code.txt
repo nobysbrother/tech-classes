@@ -1,0 +1,18 @@
+int item;
+
+void setup()
+{
+
+}
+
+
+void loop()
+{
+  item = 50;
+  for (int count = 0; count < 20; count++) {
+    tone(11,item,300);
+    delay(300);
+    item = item + 15;
+  }
+
+}
