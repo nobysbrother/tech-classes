@@ -1,5 +1,5 @@
 # Jack's Website
-Website for my intro to Programming and Robotics class.
+Website for my High School tech classes.
 live site: https://nobysbrother.github.io/Prog-Rob/.
 
 ## To Do
