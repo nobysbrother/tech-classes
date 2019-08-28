@@ -11,4 +11,3 @@ live site: https://nobysbrother.github.io/Prog-Rob/.
 * ~~Add images from image folder to their projects~~
 * ~~Make active pages have special link color~~
 * Add content to extracurricular page
-* Add badges to badges page
