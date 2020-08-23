@@ -103,4 +103,8 @@ header nav ul li {
   margin-bottom: 4px;
 }
 
+strong {
+  font-weight: bold;
+}
+
 /* END PROJECTS PAGE */
