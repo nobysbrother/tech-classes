@@ -103,7 +103,7 @@ header nav ul li {
   margin-bottom: 4px;
 }
 
-strong {
+.list p strong {
   font-weight: bold;
 }
 
