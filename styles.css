@@ -95,4 +95,12 @@ header nav ul li {
   margin: 0 auto;
 }
 
+.list {
+  margin: 10px 0;
+}
+
+.list p {
+  margin-bottom: 4px;
+}
+
 /* END PROJECTS PAGE */
