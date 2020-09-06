@@ -14,6 +14,10 @@ body {
   margin-bottom: 20px;
 }
 
+#content h2 a {
+  font-size: .6em;
+}
+
 a {
   color: #FF0202;
 }
@@ -24,6 +28,27 @@ a:hover {
 
 a.active {
   color: rgb(54, 158, 243);
+}
+
+a.top {
+  margin-left: 10px;
+}
+
+#toc {
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgb(71, 190, 255);
+}
+
+#toc h2 {
+  color: inherit;
+}
+
+#toc ul {
+  margin: 0 0 20px 20px;
+}
+
+#toc ul li {
+  line-height: 1.2em;
 }
 
 .clear {
