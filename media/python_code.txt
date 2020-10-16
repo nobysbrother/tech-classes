@@ -1,0 +1,574 @@
+## Set any number of colors, auto appending
+colors = [rgb(255,0,0), rgb(255, 165, 0), rgb(255,255,0), rgb(0,255,0), rgb(0,255,255), rgb(0,0,255), rgb(255,0,255), rgb(139, 69, 19), rgb(0,0,0), rgb(255,255,255)]
+## Starting size
+app.size = 4
+## Starting tool
+app.mode = 'pencilTool'
+## Globals
+app.background = 'white'
+backup = colors
+app.index = 0
+app.color = colors[0]
+app.oldPs = [0,0]
+app.cFill = False
+app.cEdge = True
+app.sFill = False
+app.new = True
+
+## Draw colors according to how many there are
+colorGroup = Group()
+cBlockWidth = 400 / len(colors)
+cBlockHeight = 400 / len(colors)
+if cBlockHeight > 30:
+    cBlockHeight = 30
+elif cBlockHeight < 20:
+    cBlockHeight = 20
+for i in range(len(colors)):
+    colors[i] = Rect((cBlockWidth * i), 0, cBlockWidth, cBlockHeight, fill=colors[i], border='black')
+    colorGroup.add(colors[i])
+    
+## Color editor
+hueGroup = Rect(0,cBlockHeight,400,30, fill=gradient(rgb(255,0,0),rgb(255,255,0),rgb(0,255,0),rgb(0,255,255),rgb(0,0,255),rgb(255,0,255), start='left'))
+bs = Rect(30,30+cBlockHeight,340,30, fill=gradient(rgb(0,0,0), rgb(255,255,255), start='left'))
+fb = Rect(0,30+cBlockHeight,30,30)
+fw = Rect(370,30+cBlockHeight,30,30, fill='white')
+hue = Line (0,cBlockHeight, 0,30+cBlockHeight, lineWidth=4)
+br = Line (399,30+cBlockHeight, 399,60+cBlockHeight, lineWidth=4)
+## 'Place Holder', holds hue value for b/w append
+app.ph = 0, 0, 0
+
+currentColor = Rect(370,370, 30,30, fill=app.color, border='black')
+circleToDraw = Circle(0,0,1, border=app.color, fill=None, borderWidth=app.size)
+lineToDraw = Line(0,0,1,1, fill=app.color, lineWidth=app.size)
+starToDraw = Star(0,0,1,5,roundness=40, fill=None, border=app.color, borderWidth=app.size)
+eraserToDraw = Circle(0,0,app.size*3, fill=app.background, border='black', borderWidth=1, visible=False, opacity=80)
+
+setBack = Group(
+    Rect(0,cBlockHeight+61,85,20,fill='white',border='darkGrey'),
+    Label('Set Background', 40,cBlockHeight+70, size=10)
+    )
+
+pickerGroup = Group(
+    hueGroup, bs, fb, fw, hue,
+    Line(0, cBlockHeight, 400, cBlockHeight),
+    Line(0, cBlockHeight+30, 400, cBlockHeight+30),
+    Line(0, cBlockHeight+60, 400, cBlockHeight+60),
+    Line(1, cBlockHeight, 1, cBlockHeight+60),
+    Line(399, cBlockHeight, 399, cBlockHeight+60),
+    br,
+    setBack
+    )
+rsPlus = Group(
+    Rect(370,340,30,30,borderWidth=3, fill='white', border='darkGrey'),
+    Label('+',385,358,size=40)
+    )
+rsMinus = Group(
+    Rect(370,310,30,30,borderWidth=3, fill='white', border='darkGrey'),
+    Label('-',385,329,size=40)
+    )
+resize = Group(
+    Circle (385, 290, app.size),
+    rsPlus,
+    rsMinus
+    )
+circleTool = Group(
+    Rect(30,370,30,30, fill='white', border='darkGrey', borderWidth=3),
+    circleToDraw,
+    Circle(45, 385, 10, fill=None, border='black')
+    )
+circleCenter = Group(
+    Rect(180,370,30,30, fill='white', border='darkGrey'),
+    Line(187,377, 195,385),
+    Circle(195, 385, 12, fill=None, border='black'),
+    Circle(187,377,2.4, fill='white', border='black', borderWidth=1),
+    Circle(195,385,2.4, fill='white', border='black', borderWidth=1)
+    )
+circleEdge = Group(
+    Rect(210, 370,30,30, fill='white', border='darkGrey'),
+    Line(217,377, 233,393),
+    Circle(225, 385, 12, fill=None, border='black'),
+    Circle(217,377,2.4, fill='white', border='black', borderWidth=1),
+    Circle(233,393,2.4, fill='white', border='black', borderWidth=1)
+    )
+circleMenu = Group(
+    circleCenter,
+    circleEdge
+    )
+pencilTool = Group(
+    Rect(0,370,30,30, fill='white', border='darkGrey', borderWidth=3),
+    Line(20, 376, 12, 394, fill='gold', lineWidth=5),
+    Rect(18,374,5,5, rotateAngle=23, fill='hotPink'),
+    Circle(12,394,1)
+    )
+lineTool = Group(
+    Rect(60,370,30,30, fill='white', border='darkGrey', borderWidth=3),
+    Line(67,377, 83,393),
+    Circle(67,377,2.4, fill='white', border='black', borderWidth=1),
+    Circle(83,393,2.4, fill='white', border='black', borderWidth=1)
+    )
+stampTool = Group(
+    Rect(90,370,30,30,fill='white', border='darkGrey', borderWidth=3),
+    Circle(105,379,5,fill='brown'),
+    Polygon(100,379, 110,379, 108,389, 102, 389, fill='brown'),
+    Rect(101,389, 8,1, fill='dimGrey'),
+    Rect(92, 390, 25, 6, fill='grey')
+    )
+eraserTool = Group(
+    Rect(120,370,30,30,fill='white', border='darkGrey'),
+    Polygon(135, 375, 145, 375, 135, 395, 125, 395, fill='hotPink')
+    )
+starTool = Group(
+    Rect(150,370,30,30,fill='white', border='darkGrey'),
+    Star(165, 385, 12, 5, roundness=40, border='black', fill=None)
+    )
+starPlus = Group(
+    Rect(180,370,30,30, fill='white', border='darkGrey'),
+    Label('-',195,390,size=40)
+    )
+starMinus = Group(
+    Rect(210, 370,30,30, fill='white', border='darkGrey'),
+    Label('+',225,388,size=40)
+    )
+starMenu = Group(
+    starPlus,
+    starMinus
+    )
+clearTool = Group(
+    Rect(340, 370, 30,30, fill='white', border='darkGrey', borderWidth=3),
+    Line(347, 377, 363, 393, fill=gradient('red', 'darkRed'), lineWidth=3),
+    Line(347, 393, 363, 377, fill=gradient('red', 'darkRed'), lineWidth=3)
+    )
+undoTool = Group(
+    Rect(310, 370, 30,30, fill='white', border='darkGrey', borderWidth=3),
+    Circle(325, 385, 10, fill=None, border=gradient('black', 'grey', start='top-right')),
+    Rect(313, 380, 10,8, fill='white'),
+    Polygon(316,377, 322,381, 316,384)
+    )
+tempShapes = Group(
+    circleToDraw,
+    lineToDraw,
+    )
+tools = Group(
+    ## placeholder shapes go first
+    colorGroup,
+    pickerGroup,
+    resize,
+    currentColor,
+    circleTool,
+    circleMenu,
+    pencilTool,
+    lineTool,
+    stampTool,
+    eraserTool,
+    starTool,
+    clearTool,
+    undoTool,
+    starMenu
+    )
+canvas = Group()
+app.erasers = []
+pickerGroup.visible = False
+
+## Tool functions
+
+def changeSize(increase):
+    if increase == True:
+        ## Max size
+        if app.size != 15:
+            app.size += 1
+    elif increase == False:
+        if app.size > 1:
+            app.size -= 1
+    lineToDraw.lineWidth = app.size
+    circleToDraw.borderWidth = app.size
+    starToDraw.borderWidth = app.size
+    resize.children[0].radius = app.size
+    eraserToDraw.radius = app.size*3
+
+def changeMode(mode):
+    app.mode = mode
+    if mode == 'circleTool':
+        pencilTool.children[0].border = 'darkGrey'
+        circleTool.children[0].border='black'
+        lineTool.children[0].border = 'darkGrey'
+        stampTool.children[0].border = 'darkGrey'
+        eraserTool.children[0].border = 'darkGrey'
+        starTool.children[0].border = 'darkGrey'
+        circleMenu.visible = True
+        circleMenu.toFront()
+        circleType()
+    elif mode == 'pencilTool':
+        pencilTool.children[0].border = 'black'
+        circleTool.children[0].border = 'darkGrey'
+        lineTool.children[0].border = 'darkGrey'
+        stampTool.children[0].border = 'darkGrey'
+        eraserTool.children[0].border = 'darkGrey'
+        starTool.children[0].border = 'darkGrey'
+    elif mode == 'lineTool':
+        pencilTool.children[0].border = 'darkGrey'
+        circleTool.children[0].border='darkGrey'
+        lineTool.children[0].border = 'black'
+        stampTool.children[0].border = 'darkGrey'
+        eraserTool.children[0].border = 'darkGrey'
+        starTool.children[0].border = 'darkGrey'
+    elif mode == 'stampTool':
+        pencilTool.children[0].border = 'darkGrey'
+        circleTool.children[0].border='darkGrey'
+        lineTool.children[0].border = 'darkGrey'
+        stampTool.children[0].border = 'black'
+        eraserTool.children[0].border = 'darkGrey'
+        starTool.children[0].border = 'darkGrey'
+    elif mode == 'eraserTool':
+        pencilTool.children[0].border = 'darkGrey'
+        circleTool.children[0].border='darkGrey'
+        lineTool.children[0].border = 'darkGrey'
+        stampTool.children[0].border = 'darkGrey'
+        eraserTool.children[0].border = 'black'
+        starTool.children[0].border = 'darkGrey'
+        eraserToDraw.visible=True
+    elif mode == 'starTool':
+        pencilTool.children[0].border = 'darkGrey'
+        circleTool.children[0].border='darkGrey'
+        lineTool.children[0].border = 'darkGrey'
+        stampTool.children[0].border = 'darkGrey'
+        eraserTool.children[0].border = 'darkGrey'
+        starTool.children[0].border = 'black'
+        starMenu.visible = True
+        starMenu.toFront()
+    if mode != 'eraserTool':
+        eraserToDraw.visible = False
+    if mode != 'starTool':
+        starMenu.visible = False
+    if mode != 'circleTool':
+        circleMenu.visible = False
+changeMode(app.mode)
+
+def getC(n, s):
+    return int(app.ph[n]*s)
+    
+def stamp(x, y):
+    y -= 10
+    x -= 13
+    canvas.add(
+        Circle(x+13,y,5,fill='brown'),
+        Polygon(x+8,y, x+18,y, x+16,y+10, x+10, y+10, fill='brown'),
+        Rect(x+9,y+10, 8,1, fill='dimGrey'),
+        Rect(x, y+11, 25, 6, fill='grey')
+    )
+    
+def circleType():
+    if app.cEdge == True:
+        circleEdge.children[0].border='black'
+        circleCenter.children[0].border='darkGrey'
+    else:
+        circleEdge.children[0].border='darkGrey'
+        circleCenter.children[0].border='black'
+
+def picker(x, y):
+    if pickerGroup.visible:
+        thisColor = rgb(255,255,255)
+        try:
+            thisColor = rgb(currentColor.fill.red, currentColor.fill.green, currentColor.fill.blue)
+        except:
+            thisColor = rgb(255,255,255)
+        if hueGroup.hits(x, y):
+            ## Top slider
+            c = 0
+            hue.centerX = x
+            if x >= 0 and x  < 80:
+                c = (x*255)//80
+                app.ph = (255, c, 0)
+            if x >=80 and x < 160:
+                c = ((x-80)*255)//80
+                app.ph = (255-c, 255, 0)
+            if x >=160 and x < 240:
+                c = ((x-160)*255)//80
+                app.ph = (0, 255, c)
+            if x >=240 and x < 320:
+                c = ((x-240)*255)//80
+                app.ph = (0, 255-c, 255)
+            if x >= 320:
+                c = ((x-320)*255)//80
+                app.ph = c, 0, 255
+            #s = (br.centerX-30) / 340
+            s=1
+            thisColor = rgb(getC(0,s), getC(1,s), getC(2,s))
+        if bs.hits(x, y):
+            br.centerX = x
+            s = (x-30) /340
+            thisColor = rgb(getC(0,s), getC(1,s), getC(2,s))
+        if fb.hits(x, y):
+            thisColor = rgb(0,0,0)
+            br.centerX = x
+        if fw.hits(x, y):
+            br.centerX = x
+            thisColor = rgb(getC(0,1), getC(1,1), getC(2,1))
+        currentColor.fill = thisColor
+        app.color = thisColor
+        lineToDraw.fill = thisColor
+        circleToDraw.fill = thisColor
+        circleToDraw.border = thisColor
+        colors[app.index].fill = thisColor
+            
+def setColor(c):
+    currentColor.fill = c
+    if app.cFill:
+        circleToDraw.fill = c
+    circleToDraw.border = c
+    if app.sFill:
+        starToDraw.fill = c
+    starToDraw.border = c
+    lineToDraw.fill = c
+    app.color = c
+
+def onMousePress(x, y):
+    if tools.hits(x, y):
+        if colorGroup.hits(x,y):
+            myBlock = x // cBlockWidth
+            setColor(colors[myBlock].fill)
+            if colors[app.index].hits(x, y):
+                if pickerGroup.visible == False:
+                    pickerGroup.visible = True
+                else:
+                    pickerGroup.visible = False
+            else:
+                pickerGroup.visible = False
+            app.index = myBlock
+            
+        elif circleTool.hits(x,y):
+            if app.mode == 'circleTool':
+                if app.cFill:
+                    app.cFill = False
+                    circleTool.children[1].fill = 'white'
+                    circleToDraw.fill = None
+                    circleToDraw.border = app.color
+                    circleToDraw.borderWidth = app.size
+                else:
+                    app.cFill = True
+                    circleTool.children[1].fill = 'black'
+                    circleToDraw.fill = app.color
+                    circleToDraw.border = app.color
+                    circleToDraw.borderWidth = app.size
+                
+            changeMode('circleTool')
+            
+        elif pencilTool.hits(x,y):
+            changeMode('pencilTool')
+            
+        elif lineTool.hits(x,y):
+            changeMode('lineTool')
+            
+        elif stampTool.hits(x,y):
+            changeMode('stampTool')
+            
+        elif eraserTool.hits(x,y):
+            changeMode('eraserTool')
+            
+        elif starTool.hits(x,y):
+            if app.mode == 'starTool':
+                if app.sFill == False:
+                    starTool.children[1].fill = 'black'
+                    starToDraw.fill = app.color
+                    starToDraw.border = app.color
+                    starToDraw.borderWidth = app.size
+                    app.sFill = True
+                elif app.sFill == True:
+                    starTool.children[1].fill = 'white'
+                    starToDraw.fill = None
+                    starToDraw.border = app.color
+                    starToDraw.borderWidth = app.size
+                    app.sFill = False
+            changeMode('starTool')
+            
+        elif clearTool.hits(x,y):
+            clearTool.children[0].border='dimGray'
+            if len(canvas.children) > 0:
+                print('cleared', len(canvas.children)+len(app.erasers),'shapes')
+                canvas.clear()
+                app.erasers = []
+                
+        elif undoTool.hits(x,y):
+            undoTool.children[0].border='dimGray'
+            id = len(canvas.children)-1
+            if id >= 0:
+                canvas.children[id].visible = False
+        
+        elif rsPlus.hits(x,y):
+            rsPlus.children[0].border='dimGray'
+            changeSize(True)
+        elif rsMinus.hits(x,y):
+            rsMinus.children[0].border='dimGray'
+            changeSize(False)
+            
+        elif setBack.hits(x,y):
+            app.background = app.color
+            setBack.children[0].border='dimGray'
+            for i in range(len(app.erasers)):
+                app.erasers[i].fill = app.color
+        picker(x,y)
+    if tools.hits(x, y) == False:
+        pickerGroup.visible = False
+        if app.mode == 'stampTool':
+            stamp(x,y)
+
+    if app.mode == 'circleTool':
+        if circleCenter.hits(x,y):
+            app.cEdge = False
+            circleType()
+        
+        elif circleEdge.hits(x,y):
+            app.cEdge = True
+            circleType()
+            
+    if app.mode == 'starTool':
+        if starPlus.hits(x,y):
+            if starTool.children[1].points > 3:
+                starTool.children[1].points -=1
+                starToDraw.points = starTool.children[1].points
+            starPlus.children[0].border='dimGray'
+            
+        elif starMinus.hits(x,y):
+            starTool.children[1].points +=1
+            starToDraw.points = starTool.children[1].points
+            starMinus.children[0].border='dimGray'
+    tempShapes.toFront()
+    tools.toFront()
+    
+def onMouseRelease(x, y):
+    if app.mode == 'lineTool':
+        lineToDraw.visible = False
+        if app.new == False:
+            canvas.add(
+            #Circle(app.oldPs[0], app.oldPs[1], app.size/2, fill=app.color),
+            #Circle(x, y, app.size/2, fill=app.color),
+            Line(app.oldPs[0], app.oldPs[1], x, y, fill=app.color, lineWidth=app.size)
+            )
+    if app.mode == 'circleTool':
+        if app.new == False:
+            if app.cFill:
+                canvas.add(Circle(circleToDraw.centerX, circleToDraw.centerY, circleToDraw.radius, fill=app.color))
+            else:
+                canvas.add(Circle(circleToDraw.centerX, circleToDraw.centerY, circleToDraw.radius, fill=None, border=app.color, borderWidth=app.size))
+        circleToDraw.visible = False
+    if app.mode == 'starTool':
+        if app.new == False:
+            s = starToDraw
+            canvas.add(
+                Star(s.centerX, s.centerY, s.radius, s.points,
+                roundness=s.roundness, rotateAngle=s.rotateAngle,
+                fill=s.fill, border=s.border, borderWidth=s.borderWidth
+                )
+            )
+        starToDraw.visible = False
+    undoTool.children[0].border='darkGrey'
+    clearTool.children[0].border='darkGrey'
+    rsPlus.children[0].border='darkGrey'
+    rsMinus.children[0].border='darkGrey'
+    setBack.children[0].border='darkGrey'
+    starPlus.children[0].border='darkGrey'
+    starMinus.children[0].border='darkGrey'
+    tools.toFront()
+    app.new = True
+
+def onMouseDrag(x, y):
+    if tools.hits(x,y) == False:
+        if app.mode == 'lineTool':
+            if app.new and tools.hits(x, y) == False: ## Starts at the current point if new line
+                app.oldPs = [x, y]
+                app.new = False
+                lineToDraw.visible = False
+            else: ## Modifies 'lineToDraw' as the mouse moves. 
+                lineToDraw.x1 = app.oldPs[0]
+                lineToDraw.y1 = app.oldPs[1]
+                lineToDraw.x2 = x
+                lineToDraw.y2 = y
+                lineToDraw.visible = True
+        if app.mode == 'pencilTool':
+            if app.new:
+                app.oldPs = x, y
+                app.new = False
+            elif distance(x, y, app.oldPs[0], app.oldPs[1]) > app.size:
+                canvas.add(
+                Line(x, y, app.oldPs[0], app.oldPs[1], fill=app.color, lineWidth=app.size)
+                )
+                app.oldPs = x, y
+    if pickerGroup.visible == False:
+        if app.mode == 'circleTool':
+            circleToDraw.toFront()
+            if app.cEdge:
+                if app.new:
+                    app.oldPs = x,y
+                    app.new = False
+                else:
+                    circleToDraw.visible = True
+                    angle = angleTo(app.oldPs[0], app.oldPs[1], x, y)
+                    dist = distance(app.oldPs[0], app.oldPs[1], x, y)
+                    rad = dist/2
+                    if rad == 0:
+                        rad = 1
+                    cx, cy = getPointInDir(x, y, angle, -rad)
+                    circleToDraw.centerX = cx
+                    circleToDraw.centerY = cy
+                    circleToDraw.radius = rad
+            else:
+                if app.new:
+                    app.oldPs = x,y
+                    app.new = False
+                else: ## Resizes as mouse drags
+                    circleToDraw.visible = True
+                    rad = distance(app.oldPs[0], app.oldPs[1], x, y)
+                    if rad == 0:
+                        rad = 1
+                    circleToDraw.centerX = app.oldPs[0]
+                    circleToDraw.centerY = app.oldPs[1]
+                    circleToDraw.radius = rad
+        if app.mode == 'starTool':
+            starToDraw.toFront()
+            if app.new: ## Starts new circle
+                app.oldPs = x, y
+                app.new = False
+            else: ## Resizes as mouse drags
+                starToDraw.centerX = app.oldPs[0]
+                starToDraw.centerY = app.oldPs[1]
+                rad = distance(app.oldPs[0], app.oldPs[1], x, y)
+                if rad == 0:
+                    rad = 1
+                starToDraw.radius = rad
+                starToDraw.rotateAngle = angleTo(app.oldPs[0], app.oldPs[1], x, y)
+                starToDraw.visible = True
+        
+        if app.mode == 'stampTool':
+            if app.new:
+                app.oldPs = x, y
+                app.new = False
+            elif distance(x, y, app.oldPs[0], app.oldPs[1]) > 30:
+                stamp(x,y)
+                app.oldPs = x, y
+    elif tools.hits(x,y) == True:
+        app.new = True
+        
+    if app.mode == 'eraserTool':
+        eraserToDraw.centerX = x
+        eraserToDraw.centerY = y
+        if app.new:
+            app.oldPs = x, y
+            app.new = False
+        elif distance(x, y, app.oldPs[0], app.oldPs[1]) > app.size:
+            c = Circle(x, y, app.size*3, fill=app.background)
+            app.erasers.append(c)
+            canvas.add(c)
+            app.oldPs = x, y
+    eraserToDraw.toFront()
+    
+    picker(x,y)
+    tempShapes.toFront()
+    tools.toFront()
+
+def onMouseMove(x, y):
+    if app.mode == 'eraserTool':
+        eraserToDraw.centerX = x
+        eraserToDraw.centerY = y
+        eraserToDraw.visible=True
+    tempShapes.toFront()
+    tools.toFront()
+    eraserToDraw.toFront()
